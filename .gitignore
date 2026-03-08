@@ -1,7 +1,6 @@
 node_modules
 dist
 www
-android/app/build
 android/build
 .gradle
 .idea
