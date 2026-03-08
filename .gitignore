@@ -1,9 +1,1 @@
-node_modules
-dist
-www
-android/build
-.gradle
-.idea
-*.apk
-*.log
-.env
+
