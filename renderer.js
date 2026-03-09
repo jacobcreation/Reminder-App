@@ -7,10 +7,19 @@ const remindersList = document.getElementById('remindersList');
 
 let reminders = [];
 
-// Request permission for notifications on app start
+// Request permission and create channel for notifications on app start
 LocalNotifications.requestPermissions().then(result => {
   if (result.display === 'granted') {
     console.log('Notifications permission granted');
+    LocalNotifications.createChannel({
+      id: 'reminders',
+      name: 'Reminders',
+      importance: 5,
+      description: 'Reminders for your tasks',
+      sound: 'default',
+      visibility: 1,
+      vibration: true
+    });
   }
 });
 
@@ -31,7 +40,7 @@ form.addEventListener('submit', e => {
   alarm.setHours(hours, minutes, 0, 0);
   if (alarm <= now) alarm.setDate(alarm.getDate() + 1);
 
-  const id = Date.now();
+  const id = Math.floor(Math.random() * 1000000); // 32-bit safe ID
   const reminder = {
     id,
     text,
@@ -40,6 +49,7 @@ form.addEventListener('submit', e => {
   };
 
   addReminderToList(reminder);
+  scheduleNotification(reminder);
   form.reset();
 });
 
@@ -77,14 +87,12 @@ function updateReminder(reminder) {
     clearInterval(reminder.interval);
     timerElement.textContent = '⏰ Time Up!';
     timerElement.classList.add('time-up');
-
-    sendNotification(reminder);
   } else {
     timerElement.textContent = formatTime(timeLeft);
   }
 }
 
-async function sendNotification(reminder) {
+async function scheduleNotification(reminder) {
   try {
     await LocalNotifications.schedule({
       notifications: [
@@ -92,10 +100,15 @@ async function sendNotification(reminder) {
           title: 'Reminder!',
           body: reminder.text,
           id: reminder.id,
-          schedule: { at: reminder.alarm }
+          schedule: { at: reminder.alarm, allowWhileIdle: true },
+          sound: 'default',
+          channelId: 'reminders',
+          actionTypeId: '',
+          extra: null
         }
       ]
     });
+    console.log(`Scheduled notification ${reminder.id} at ${reminder.alarm}`);
   } catch (err) {
     console.error('Notification failed:', err);
   }
@@ -105,6 +118,7 @@ function deleteReminder(id) {
   const index = reminders.findIndex(r => r.id === id);
   if (index !== -1) {
     clearInterval(reminders[index].interval);
+    LocalNotifications.cancel({ notifications: [{ id }] });
     reminders.splice(index, 1);
   }
   const element = document.getElementById(`reminder-${id}`);
