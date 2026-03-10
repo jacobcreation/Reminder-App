@@ -4,7 +4,8 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "build": "mkdir -p www && cp index.html style.css renderer.js www/",
+    "dev": "vite",
+    "build": "vite build",
     "sync": "npx cap sync",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -26,6 +27,7 @@
     "@capacitor/local-notifications": "^8.0.2"
   },
   "devDependencies": {
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
   }
 }
