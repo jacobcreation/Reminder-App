@@ -1,0 +1,31 @@
+{
+  "name": "reminderapp",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "mkdir -p www && cp index.html style.css renderer.js www/",
+    "sync": "npx cap sync",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jacobcreation/Reminder-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jacobcreation/Reminder-App/issues"
+  },
+  "homepage": "https://github.com/jacobcreation/Reminder-App#readme",
+  "dependencies": {
+    "@capacitor/android": "^8.2.0",
+    "@capacitor/cli": "^8.2.0",
+    "@capacitor/core": "^8.2.0",
+    "@capacitor/local-notifications": "^8.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
