@@ -1,4 +1,5 @@
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 const form = document.getElementById('reminderForm');
 const reminderText = document.getElementById('reminderText');
@@ -6,24 +7,18 @@ const reminderTime = document.getElementById('reminderTime');
 const remindersList = document.getElementById('remindersList');
 
 let reminders = [];
+const notificationIds = new Map();
 
-// Request permission and create channel for notifications on app start
-LocalNotifications.requestPermissions().then(result => {
-  if (result.display === 'granted') {
-    console.log('Notifications permission granted');
-    LocalNotifications.createChannel({
-      id: 'reminders',
-      name: 'Reminders',
-      importance: 5,
-      description: 'Reminders for your tasks',
-      sound: 'default',
-      visibility: 1,
-      vibration: true
-    });
+// Initialize Local Notifications
+async function initNotifications() {
+  const perm = await LocalNotifications.requestPermissions();
+  if (perm.display !== 'granted') {
+    console.warn('Notification permission not granted');
   }
-});
+}
+initNotifications();
 
-form.addEventListener('submit', e => {
+form.addEventListener('submit', async e => {
   e.preventDefault();
 
   const text = reminderText.value.trim();
@@ -40,7 +35,7 @@ form.addEventListener('submit', e => {
   alarm.setHours(hours, minutes, 0, 0);
   if (alarm <= now) alarm.setDate(alarm.getDate() + 1);
 
-  const id = Math.floor(Math.random() * 1000000); // 32-bit safe ID
+  const id = Math.floor(Math.random() * 1000000);
   const reminder = {
     id,
     text,
@@ -49,7 +44,11 @@ form.addEventListener('submit', e => {
   };
 
   addReminderToList(reminder);
-  scheduleNotification(reminder);
+  await scheduleNotification(reminder);
+  
+  // Haptic feedback
+  await Haptics.impact({ style: ImpactStyle.Medium });
+  
   form.reset();
 });
 
@@ -97,34 +96,46 @@ async function scheduleNotification(reminder) {
     await LocalNotifications.schedule({
       notifications: [
         {
-          title: 'Reminder!',
+          title: "JacobReminder",
           body: reminder.text,
           id: reminder.id,
-          schedule: { at: reminder.alarm, allowWhileIdle: true },
-          sound: 'default',
-          channelId: 'reminders',
-          actionTypeId: '',
+          schedule: { at: reminder.alarm },
+          sound: null,
+          attachments: null,
+          actionTypeId: "",
           extra: null
         }
       ]
     });
     console.log(`Scheduled notification ${reminder.id} at ${reminder.alarm}`);
   } catch (err) {
-    console.error('Notification failed:', err);
+    console.error('Notification scheduling failed:', err);
   }
 }
 
-function deleteReminder(id) {
+async function deleteReminder(id) {
   const index = reminders.findIndex(r => r.id === id);
   if (index !== -1) {
     clearInterval(reminders[index].interval);
-    LocalNotifications.cancel({ notifications: [{ id }] });
     reminders.splice(index, 1);
   }
+
+  // Cancel scheduled notification
+  try {
+    await LocalNotifications.cancel({
+      notifications: [{ id }]
+    });
+  } catch (err) {
+    console.warn('Could not cancel notification', err);
+  }
+
   const element = document.getElementById(`reminder-${id}`);
   if (element) {
     element.remove();
   }
+
+  // Haptic feedback
+  await Haptics.impact({ style: ImpactStyle.Light });
 }
 
 function formatTime(seconds) {
@@ -133,3 +144,6 @@ function formatTime(seconds) {
   const s = seconds % 60;
   return `⏳ ${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 }
+
+window.deleteReminder = deleteReminder;
+

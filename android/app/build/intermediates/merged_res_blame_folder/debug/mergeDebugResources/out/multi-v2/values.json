@@ -4,41 +4,7 @@
             "outputFile": "com.jacob.reminderapp-mergeDebugResources-26:/values/values.xml",
             "map": [
                 {
-                    "source": "/home/jacob/Desktop/ReminderApp/android/app/src/main/res/values/ic_launcher_background.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "56",
-                        "endOffsets": "107"
-                    },
-                    "to": {
-                        "startLines": "54",
-                        "startColumns": "4",
-                        "startOffsets": "3758",
-                        "endColumns": "56",
-                        "endOffsets": "3810"
-                    }
-                },
-                {
-                    "source": "/home/jacob/Desktop/ReminderApp/android/app/src/main/res/values/strings.xml",
-                    "from": {
-                        "startLines": "2,5,4,3",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,231,168,106",
-                        "endColumns": "50,67,62,61",
-                        "endOffsets": "101,294,226,163"
-                    },
-                    "to": {
-                        "startLines": "323,331,333,336",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "21078,21640,21788,21975",
-                        "endColumns": "50,67,62,61",
-                        "endOffsets": "21124,21703,21846,22032"
-                    }
-                },
-                {
-                    "source": "/home/jacob/Desktop/ReminderApp/android/app/src/main/res/values/styles.xml",
+                    "source": "/home/jacob/My Stuff/ReminderApp/android/app/src/main/res/values/styles.xml",
                     "from": {
                         "startLines": "4,11,18",
                         "startColumns": "4,4,4",
@@ -57,7 +23,24 @@
                     }
                 },
                 {
-                    "source": "/home/jacob/Desktop/ReminderApp/node_modules/@capacitor/android/capacitor/build/intermediates/packaged_res/debug/packageDebugResources/values/values.xml",
+                    "source": "/home/jacob/My Stuff/ReminderApp/android/app/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "2,5,4,3",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,231,168,106",
+                        "endColumns": "50,67,62,61",
+                        "endOffsets": "101,294,226,163"
+                    },
+                    "to": {
+                        "startLines": "323,331,333,336",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "21078,21640,21788,21975",
+                        "endColumns": "50,67,62,61",
+                        "endOffsets": "21124,21703,21846,22032"
+                    }
+                },
+                {
+                    "source": "/home/jacob/My Stuff/ReminderApp/node_modules/@capacitor/android/capacitor/build/intermediates/packaged_res/debug/packageDebugResources/values/values.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -71,6 +54,23 @@
                         "startOffsets": "2846,2921,2997,21708",
                         "endColumns": "74,75,79,79",
                         "endOffsets": "2916,2992,3072,21783"
+                    }
+                },
+                {
+                    "source": "/home/jacob/My Stuff/ReminderApp/android/app/src/main/res/values/ic_launcher_background.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "56",
+                        "endOffsets": "107"
+                    },
+                    "to": {
+                        "startLines": "54",
+                        "startColumns": "4",
+                        "startOffsets": "3758",
+                        "endColumns": "56",
+                        "endOffsets": "3810"
                     }
                 },
                 {

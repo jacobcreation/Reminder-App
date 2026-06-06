@@ -17,6 +17,23 @@
 /* Reset */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+:root {
+  --bg1: #0b1020;
+  --bg2: #0a1633;
+  --card: rgba(255, 255, 255, 0.08);
+  --card2: rgba(255, 255, 255, 0.12);
+  --border: rgba(255, 255, 255, 0.14);
+  --text: #eaf2ff;
+  --muted: rgba(234, 242, 255, 0.75);
+  --blue: #4ea1ff;
+  --blue2: #2d6bff;
+  --shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+  --shadow2: 0 10px 22px rgba(0, 0, 0, 0.28);
+  --radius: 18px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
 body {
   font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: var(--text);
@@ -33,9 +50,11 @@ body {
 header {
   position: sticky;
   top: 0;
+  z-index: 100;
   backdrop-filter: blur(10px);
   background: rgba(10, 16, 32, 0.65);
   border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  padding-top: var(--safe-top);
 }
 
 .header-container {
@@ -83,8 +102,9 @@ header {
 /* Main */
 main {
   max-width: 1100px;
+  width: 100%;
   margin: 0 auto;
-  padding: 28px 18px 60px;
+  padding: 20px 18px 40px;
   flex: 1;
 }
 
@@ -94,8 +114,9 @@ main {
   border: 1px solid var(--border);
   background: var(--card2);
   box-shadow: var(--shadow);
-  padding: 28px 24px;
+  padding: 28px 20px;
   max-width: 420px;
+  width: 100%;
   margin: 0 auto;
   text-align: center;
 }
@@ -104,41 +125,50 @@ main {
 .hero-card h1 {
   font-family: "Orbitron", sans-serif;
   margin-bottom: 10px;
+  font-size: 1.6rem;
 }
 
 .hero-card p {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   color: var(--muted);
   line-height: 1.5;
+  font-size: 0.95rem;
 }
 
 /* Form styling */
 .form-group {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
 label {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   font-weight: 600;
+  font-size: 0.9rem;
 }
 
 input[type="text"],
 input[type="time"] {
   width: 100%;
-  padding: 10px 12px;
-  border-radius: var(--radius);
+  padding: 14px 16px;
+  border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.18);
   background: rgba(255,255,255,0.05);
   color: var(--text);
-  font-size: 15px;
+  font-size: 16px; /* Prevents auto-zoom on iOS */
   outline: none;
+  -webkit-appearance: none;
+}
+
+input:focus {
+  border-color: var(--blue);
+  background: rgba(255,255,255,0.1);
 }
 
 input::placeholder {
-  color: rgba(234,242,255,0.55);
+  color: rgba(234,242,255,0.45);
 }
 
 /* Buttons */
@@ -146,63 +176,66 @@ input::placeholder {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  width: 100%; /* Full width on mobile by default */
+  gap: 8px;
   cursor: pointer;
   border: none;
-  border-radius: 999px;
-  padding: 12px 18px;
+  border-radius: 12px;
+  padding: 14px 24px;
   font-weight: 700;
-  font-size: 0.95rem;
-  transition: transform 0.18s ease, opacity 0.18s ease;
+  font-size: 1rem;
+  transition: transform 0.1s ease, opacity 0.18s ease;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .btn-primary {
   color: #071122;
   background: linear-gradient(135deg, var(--blue), var(--blue2));
-  box-shadow: 0 10px 26px rgba(45,107,255,0.30);
+  box-shadow: 0 8px 20px rgba(45,107,255,0.25);
 }
 
-.btn-primary:hover {
-  transform: translateY(-2px);
+.btn-primary:active {
+  transform: scale(0.97);
 }
 
 /* Countdown / Reminders List */
 #remindersList {
-  margin-top: 28px;
+  margin-top: 32px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   text-align: left;
 }
 
 .reminder-item {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 14px 18px;
+  border-radius: 16px;
+  padding: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: transform 0.2s ease, background 0.2s ease;
   animation: slideIn 0.3s ease-out;
-}
-
-.reminder-item:hover {
-  background: var(--card2);
-  transform: scale(1.02);
 }
 
 .reminder-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  flex: 1;
+}
+
+.reminder-info {
+  display: flex;
+  flex-direction: column;
 }
 
 .reminder-text {
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: var(--text);
+  word-break: break-word;
 }
 
 .reminder-target-time {
@@ -211,10 +244,9 @@ input::placeholder {
 }
 
 .reminder-timer {
-  margin-top: 6px;
   font-family: "Orbitron", sans-serif;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #FFD700;
 }
 
@@ -224,20 +256,22 @@ input::placeholder {
 }
 
 .btn-delete {
-  background: rgba(255, 78, 78, 0.15);
+  background: rgba(255, 78, 78, 0.1);
   color: #ff4e4e;
-  border: 1px solid rgba(255, 78, 78, 0.25);
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  border: 1px solid rgba(255, 78, 78, 0.2);
+  width: 44px; /* Better touch target */
+  height: 44px;
+  border-radius: 12px;
   display: grid;
   place-items: center;
   cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-left: 12px;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn-delete:hover {
+.btn-delete:active {
   background: #ff4e4e;
   color: white;
 }
@@ -256,8 +290,25 @@ input::placeholder {
 /* Footer */
 footer {
   text-align: center;
-  padding: 14px 18px;
+  padding: 20px 18px calc(20px + var(--safe-bottom));
   color: var(--muted);
+  font-size: 0.85rem;
   border-top: 1px solid rgba(255, 255, 255, 0.10);
   backdrop-filter: blur(8px);
 }
+
+/* Tablet and Desktop adjustments */
+@media (min-width: 600px) {
+  .hero-card {
+    padding: 36px 32px;
+  }
+  
+  .btn {
+    width: auto;
+  }
+
+  .reminder-item {
+    padding: 18px 24px;
+  }
+}
+
