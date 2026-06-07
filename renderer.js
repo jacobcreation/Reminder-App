@@ -15,6 +15,16 @@ async function initNotifications() {
   if (perm.display !== 'granted') {
     console.warn('Notification permission not granted');
   }
+
+  // Create a channel for Android (required for sound and importance)
+  await LocalNotifications.createChannel({
+    id: 'reminders',
+    name: 'Reminders',
+    description: 'Reminder notifications',
+    importance: 5, // Max importance for sound/heads-up
+    visibility: 1,
+    vibration: true
+  });
 }
 initNotifications();
 
@@ -100,7 +110,8 @@ async function scheduleNotification(reminder) {
           body: reminder.text,
           id: reminder.id,
           schedule: { at: reminder.alarm },
-          sound: null,
+          channelId: 'reminders',
+          sound: 'default',
           attachments: null,
           actionTypeId: "",
           extra: null
