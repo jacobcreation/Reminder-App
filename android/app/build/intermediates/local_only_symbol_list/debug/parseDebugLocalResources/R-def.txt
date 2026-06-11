@@ -8,6 +8,7 @@ layout activity_main
 mipmap ic_launcher
 mipmap ic_launcher_foreground
 mipmap ic_launcher_round
+raw reminder_beep
 string app_name
 string custom_url_scheme
 string package_name

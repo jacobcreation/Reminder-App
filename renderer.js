@@ -8,6 +8,8 @@ const remindersList = document.getElementById('remindersList');
 
 let reminders = [];
 const notificationIds = new Map();
+const REMINDER_CHANNEL_ID = 'reminders_beep_v1';
+const REMINDER_SOUND = 'reminder_beep.wav';
 
 // Initialize Local Notifications
 async function initNotifications() {
@@ -18,11 +20,12 @@ async function initNotifications() {
 
   // Create a channel for Android (required for sound and importance)
   await LocalNotifications.createChannel({
-    id: 'reminders',
+    id: REMINDER_CHANNEL_ID,
     name: 'Reminders',
     description: 'Reminder notifications',
     importance: 5, // Max importance for sound/heads-up
     visibility: 1,
+    sound: REMINDER_SOUND,
     vibration: true
   });
 }
@@ -110,8 +113,8 @@ async function scheduleNotification(reminder) {
           body: reminder.text,
           id: reminder.id,
           schedule: { at: reminder.alarm },
-          channelId: 'reminders',
-          sound: 'default',
+          channelId: REMINDER_CHANNEL_ID,
+          sound: REMINDER_SOUND,
           attachments: null,
           actionTypeId: "",
           extra: null
@@ -157,4 +160,3 @@ function formatTime(seconds) {
 }
 
 window.deleteReminder = deleteReminder;
-
